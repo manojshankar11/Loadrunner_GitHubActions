@@ -1,0 +1,29 @@
+name: LoadRunner Enterprise integration
+
+on:
+  push:
+    branches:
+      - master
+
+env:
+  LR_URL: ${{ secrets.LR_URL }}
+  LR_USERNAME: ${{ secrets.LR_USERNAME }}
+  LR_PASSWORD: ${{ secrets.LR_PASSWORD }}
+
+jobs:
+  run_test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Execute LoadRunner Enterprise REST API
+      uses: docker://python:3.9-alpine
+      env:
+        LR_URL: ${{ env.LR_URL }}
+        LR_USERNAME: ${{ env.LR_USERNAME }}
+        LR_PASSWORD: ${{ env.LR_PASSWORD }}
+      run: |
+        apk add --no-cache curl
+        curl -X POST -u "$LR_USERNAME:$LR_PASSWORD" "$LR_URL/api/run"
