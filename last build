@@ -1,0 +1,12 @@
+# Define Jenkins URL and job name
+JENKINS_URL=<jenkins-url>
+JOB_NAME=<jenkins-job-name>
+
+# Get the latest build number
+LATEST_BUILD=$(curl -s "$JENKINS_URL/job/$JOB_NAME/lastBuild/buildNumber")
+
+# Get the build status
+BUILD_STATUS=$(curl -s "$JENKINS_URL/job/$JOB_NAME/$LATEST_BUILD/api/json?tree=result" | grep -o '"result":"[^"]*"' | awk -F '"' '{print $4}')
+
+# Print the build status
+echo "The latest build of job $JOB_NAME is #$LATEST_BUILD with status $BUILD_STATUS."
