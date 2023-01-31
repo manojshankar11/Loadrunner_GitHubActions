@@ -1,0 +1,19 @@
+JOB_NAME="<JobName>"
+BUILD_NUMBER="<BuildNumber>"
+JENKINS_URL="<JenkinsURL>"
+USERNAME="<Username>"
+PASSWORD="<APIToken>"
+
+AUTH_HEADER="Authorization: Basic $(echo -n "${USERNAME}:${PASSWORD}" | base64)"
+
+RESPONSE=$(curl -s -X GET -H "${AUTH_HEADER}" "${JENKINS_URL}/job/${JOB_NAME}/${BUILD_NUMBER}/api/json")
+
+BUILD_STATUS=$(echo "$RESPONSE" | jq -r '.result')
+
+if [ "$BUILD_STATUS" = "SUCCESS" ]; then
+  echo "Build #${BUILD_NUMBER} of job '${JOB_NAME}' succeeded."
+elif [ "$BUILD_STATUS" = "FAILURE" ]; then
+  echo "Build #${BUILD_NUMBER} of job '${JOB_NAME}' failed."
+else
+  echo "Build #${BUILD_NUMBER} of job '${JOB_NAME}' is in progress."
+fi
