@@ -1,0 +1,19 @@
+name: Execute a file in Github
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Run file
+      run: |
+        chmod +x <file-name>
+        ./<file-name>
