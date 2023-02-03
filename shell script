@@ -1,0 +1,27 @@
+name: Example workflow
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  VAR1: ${{ secrets.VAR1 }}
+  VAR2: ${{ secrets.VAR2 }}
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Run script
+      env:
+        VAR1: ${{ env.VAR1 }}
+        VAR2: ${{ env.VAR2 }}
+      run: |
+        #!/bin/bash
+        echo "Value of VAR1 is $VAR1"
+        echo "Value of VAR2 is $VAR2"
