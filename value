@@ -10,3 +10,13 @@ FROM="sender@example.com"
 MESSAGE="This is the body of the email."
 
 echo "$MESSAGE" | sendmail -t -f "$FROM" -au"$FROM" -ap"$FROM_PASSWORD" -s "$SUBJECT" "$TO"
+
+#!/bin/bash
+
+sendemail -f sender@example.com \
+-t recipient@example.com \
+-u "Subject" \
+-m "This is the message body." \
+-s smtp.example.com \
+-xu username \
+-xp password
