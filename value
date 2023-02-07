@@ -1,3 +1,12 @@
 awk 'NR == 15 {print $0}' filename
 
 grep -oP '(?<=<tag>).*(?=</tag>)' filename | sed -n 1p
+
+#!/bin/sh
+
+SUBJECT="This is the subject of the email"
+TO="recipient@example.com"
+FROM="sender@example.com"
+MESSAGE="This is the body of the email."
+
+echo "$MESSAGE" | sendmail -t -f "$FROM" -au"$FROM" -ap"$FROM_PASSWORD" -s "$SUBJECT" "$TO"
