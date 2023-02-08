@@ -20,3 +20,13 @@ sendemail -f sender@example.com \
 -s smtp.example.com \
 -xu username \
 -xp password
+
+
+- name: Send email with attachments
+  run: |
+    mail -s "Build artifacts" recipient@example.com < /dev/null \
+    -a "From: sender@example.com" \
+    -a "Content-Type: text/plain; charset=UTF-8" \
+    -a "MIME-Version: 1.0" \
+    -a "Content-Disposition: attachment" \
+    -- "$(find $GITHUB_WORKSPACE -type f | xargs ls -1)"
