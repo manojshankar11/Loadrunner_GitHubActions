@@ -1,0 +1,77 @@
+#!/bin/bash
+
+# Set the recipient email address
+recipient="recipient@example.com"
+
+# Set the subject line for the email
+subject="Jenkins Build Report: Build #${BUILD_NUMBER}"
+
+# Set the table header for the build information
+table_header="
+<tr>
+  <th>Build Number</th>
+  <th>Build Status</th>
+  <th>Start Time</th>
+  <th>End Time</th>
+  <th>Duration</th>
+  <th>Repository URL</th>
+  <th>Branch Name</th>
+  <th>Commit ID</th>
+</tr>
+"
+
+# Set the table row for the build information
+table_row="
+<tr>
+  <td>${BUILD_NUMBER}</td>
+  <td>${BUILD_STATUS}</td>
+  <td>${BUILD_START_TIME}</td>
+  <td>${BUILD_END_TIME}</td>
+  <td>${BUILD_DURATION}</td>
+  <td>${GIT_URL}</td>
+  <td>${GIT_BRANCH}</td>
+  <td>${GIT_COMMIT}</td>
+</tr>
+"
+
+# Set the console output
+console_output=$(cat ${WORKSPACE}/console-output.txt)
+
+# Set the email body
+body="
+<html>
+  <head>
+    <style>
+      table {
+        font-family: arial, sans-serif;
+        border-collapse: collapse;
+        width: 100%;
+      }
+
+      td, th {
+        border: 1px solid #dddddd;
+        text-align: left;
+        padding: 8px;
+      }
+
+      tr:nth-child(even) {
+        background-color: #dddddd;
+      }
+    </style>
+  </head>
+  <body>
+    <h2>Build Information:</h2>
+    <table>
+      ${table_header}
+      ${table_row}
+    </table>
+    <h2>Console Output:</h2>
+    <pre>
+      ${console_output}
+    </pre>
+  </body>
+</html>
+"
+
+# Send the email
+echo "${body}" | mailx -s "${subject}" -r "jenkins@example.com" "${recipient}"
