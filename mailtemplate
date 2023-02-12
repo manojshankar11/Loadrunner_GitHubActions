@@ -1,0 +1,43 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Build') {
+            steps {
+                // your build steps here
+            }
+        }
+
+        stage('Notify') {
+            steps {
+                emailext (
+                    to: 'recipient@example.com',
+                    subject: 'Build status: ${currentBuild.currentResult}',
+                    body: '''
+                        <p>Build: ${env.JOB_NAME} #${env.BUILD_NUMBER}</p>
+                        <p>Status: ${currentBuild.currentResult}</p>
+                        <p>Build URL: ${env.BUILD_URL}</p>
+                        <h3>Build Information</h3>
+                        <table border="1">
+                            <tr>
+                                <td>Start Time</td>
+                                <td>${currentBuild.startTime}</td>
+                            </tr>
+                            <tr>
+                                <td>Duration</td>
+                                <td>${currentBuild.durationString}</td>
+                            </tr>
+                            <tr>
+                                <td>Cause</td>
+                                <td>${currentBuild.cause}</td>
+                            </tr>
+                        </table>
+                        <h3>Console Output</h3>
+                        <pre>${currentBuild.log}</pre>
+                    ''',
+                    recipientProviders: [[$class: 'DevelopersRecipientProvider']]
+                )
+            }
+        }
+    }
+}
