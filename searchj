@@ -1,0 +1,1 @@
+value=$(echo "$json_file" | grep -o '"innerKey": *"[^"]*"' | sed 's/"innerKey": *"\([^"]*\)"/\1/')
