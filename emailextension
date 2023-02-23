@@ -1,0 +1,34 @@
+pipeline {
+  agent any
+
+  stages {
+    stage('Build') {
+      steps {
+        // Your build steps here
+      }
+    }
+    stage('Notify') {
+      steps {
+        script {
+          def emailBody = readFile('email_template.html')
+
+          // Customize email variables here
+          def subject = "Build notification"
+          def to = "recipient@example.com"
+          def cc = ""
+          def bcc = ""
+          def body = emailBody
+
+          emailext (
+            subject: subject,
+            to: to,
+            cc: cc,
+            bcc: bcc,
+            body: body,
+            mimeType: 'text/html'
+          )
+        }
+      }
+    }
+  }
+}
