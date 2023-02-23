@@ -1,0 +1,19 @@
+${JELLY_SCRIPT,template="html"}<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>${ENV, var="JOB_NAME"} - Build #${ENV, var="BUILD_NUMBER"}</title>
+</head>
+<body>
+    <h2>${ENV, var="JOB_NAME"}</h2>
+    <p>Build #${ENV, var="BUILD_NUMBER"} was ${ENV, var="BUILD_STATUS"}</p>
+    <h3>Build Details</h3>
+    <ul>
+        <li>Started at: ${ENV, var="BUILD_START_TIME"}</li>
+        <li>Duration: ${ENV, var="BUILD_DURATION"}</li>
+        <li>Triggered by: ${ENV, var="CAUSE"}</li>
+    </ul>
+    <h3>Console Output</h3>
+    <pre>${JELLY_SCRIPT,template="console"}${BUILD_LOG, escapeHtml=true}</pre>
+</body>
+</html>
