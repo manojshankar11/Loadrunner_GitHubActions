@@ -1,0 +1,15 @@
+// get the current date and time
+char currentDate[20];
+lr_get_attrib_string("System.DateTime", currentDate);
+
+// wait for some time (in this example, we're waiting for 2 minutes)
+lr_think_time(120);
+
+// get the current date and time again
+char newDate[20];
+lr_get_attrib_string("System.DateTime", newDate);
+
+// calculate the time difference (in seconds)
+char timeDiff[20];
+lr_eval_string("{ToInt({TimeDiff(%s, %s, \"%s\")})}", newDate, currentDate, "s", timeDiff);
+lr_output_message("Time difference is %s seconds", timeDiff);
