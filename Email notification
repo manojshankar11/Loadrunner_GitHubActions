@@ -1,0 +1,19 @@
+curl -X POST "https://your-dynatrace-domain/api/v1/problemNotifications" \
+     -H "Authorization: Api-Token YOUR_API_TOKEN" \
+     -H "Content-Type: application/json" \
+     -d '{
+           "name": "Email Notification",
+           "enabled": true,
+           "type": "ALERT",
+           "alertingProfile": "YOUR_ALERTING_PROFILE_ID",
+           "notificationConfigurations": [
+               {
+                   "type": "EMAIL",
+                   "to": "recipient@example.com",
+                   "cc": ["cc1@example.com", "cc2@example.com"],
+                   "bcc": ["bcc1@example.com", "bcc2@example.com"],
+                   "subject": "Dynatrace Problem Notification",
+                   "body": "A problem has occurred in your application. Please investigate."
+               }
+           ]
+       }'
